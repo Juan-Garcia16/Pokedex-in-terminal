@@ -36,7 +36,7 @@ async function obtenerDatosPokemon(id) {
         descripcion
     };
 } catch (error) {
-    console.error(`Error al obtener los datos del Pokémon con ID ${id}:`, error);
+    console.error(`Error al obtener los datos del Pokemon con ID ${id}:`, error);
     return null;
     }
 }
