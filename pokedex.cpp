@@ -186,7 +186,7 @@ void searchPokemon(){
             rewind(archi); // Inicio del archivo
             int found = 0;
 
-            cout << "Ingrese el ID a consultar";
+            cout << "Ingrese el ID a consultar: ";
             cin >> ID;
             cin.ignore();
 
@@ -227,7 +227,124 @@ void searchPokemon(){
 }
 
 void modifyPokemon(){
+    FILE *archi;
+    int ID, pos, k, found = 0;
+    Pokemon pokemon;
+    char confirm;
 
+    archi = fopen(archivo, "r+b");
+    if (archi == NULL)
+    {
+        cout << "\n Error en la operacion de archivo";
+    } else {
+        do
+        {
+            rewind(archi);
+            k = 0;
+            cout << "Ingrese ID del Pokemon a modificar: ";
+            cin >> ID;
+            cin.ignore();
+
+            while (fread(&pokemon, sizeof(pokemon), 1, archi) && !found) 
+            {
+                if (ID == pokemon.id)
+                {
+                    found = 1;
+                    pos = k;
+                    break;
+                }
+                k++;
+            }
+
+            if (!found)
+            {
+                cout << "El Pokemon no existe";
+                cout << "Presione Enter para continuar...";
+                cin.get();
+            } else {
+                cout << "\n\t\t Datos actuales\n\n";
+                cout << "Nombre: " << pokemon.name << "\n";
+                cout << "Tipo: " << pokemon.type << "\n";
+                cout << "Vida: " << pokemon.hp << "\n";
+                cout << "Ataque: " << pokemon.attack << "\n";
+                cout << "Defensa: " << pokemon.defense << "\n";
+                cout << "Ataque Especial: " << pokemon.specialAttack << "\n";
+                cout << "Defensa Especial: " << pokemon.specialDefense << "\n";
+                cout << "Velocidad: " << pokemon.speed << "\n";
+                cout << "Descripción: " << pokemon.description << "\n";
+
+                pokemon.id = ID;
+                cout << "\n------------------------------------------------------------\n";
+                cout << "Nuevo nombre: ";
+                cin.getline(pokemon.name, sizeof(pokemon.name));
+
+                int type;  // Variable para capturar la opción ingresada por el usuario
+                cout << "Nuevo tipo: \n";
+                cout << "1. Planta" << "     5. Agua" << "         9.  Tierra" << "     13. Roca" << endl;
+                cout << "2. Veneno" << "     6. Bicho" << "        10. Hada" << "       14. Acero" << endl;
+                cout << "3. Fuego" << "      7. Normal" << "       11. Lucha" << "      15. Hielo" << endl;
+                cout << "4. Volador" << "    8. Electrico" << "    12. Psiquico" << "   16. Fantasma" << endl;
+                cin >> type;
+
+                switch (type) {
+                    case 1: strcpy(pokemon.type, "Planta"); break;
+                    case 2: strcpy(pokemon.type, "Veneno"); break;
+                    case 3: strcpy(pokemon.type, "Fuego"); break;
+                    case 4: strcpy(pokemon.type, "Volador"); break;
+                    case 5: strcpy(pokemon.type, "Agua"); break;
+                    case 6: strcpy(pokemon.type, "Bicho"); break;
+                    case 7: strcpy(pokemon.type, "Normal"); break;
+                    case 8: strcpy(pokemon.type, "Electrico"); break;
+                    case 9: strcpy(pokemon.type, "Tierra"); break;
+                    case 10: strcpy(pokemon.type, "Hada"); break;
+                    case 11: strcpy(pokemon.type, "Lucha"); break;
+                    case 12: strcpy(pokemon.type, "Psiquico"); break;
+                    case 13: strcpy(pokemon.type, "Roca"); break;
+                    case 14: strcpy(pokemon.type, "Acero"); break;
+                    case 15: strcpy(pokemon.type, "Hielo"); break;
+                    case 16: strcpy(pokemon.type, "Fantasma"); break;
+                    default:
+                        cout << "Opción no válida. Se asignará 'Desconocido'." << endl;
+                        strcpy(pokemon.type, "Desconocido"); break;
+                }
+
+                cout << "\t\t\tNUEVAS ESTADÍSTICAS\n\n";
+                cout << "Ingrese su vida: ";
+                cin >> pokemon.hp;
+
+                cout << "Ingrese su ataque: ";
+                cin >> pokemon.attack;
+
+                cout << "Ingrese su defensa: ";
+                cin >> pokemon.defense;
+
+                cout << "Ingrese su ataque especial: ";
+                cin >> pokemon.specialAttack;
+
+                cout << "Ingrese su defensa especial: ";
+                cin >> pokemon.specialDefense;
+
+                cout << "Ingrese su velocidad: ";
+                cin >> pokemon.speed;
+
+                cin.ignore();
+
+                cout << "Ingrese una breve descripcion del Pokemon: ";
+                cin.getline(pokemon.description, sizeof(pokemon.description));
+
+                fseek(archi, (long)pos * sizeof(pokemon), SEEK_SET);
+                fwrite(&pokemon, sizeof(pokemon), 1, archi);
+            }
+
+            cout << "\n Desea modificar otro Pokemon S/N ";
+            cin >> confirm;
+            cin.ignore();
+
+        } while (confirm == 's' || confirm == 'S');
+        
+        fclose(archi);
+    }
+    
 }
 
 void sortPokemon(){
