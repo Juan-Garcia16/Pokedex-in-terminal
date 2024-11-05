@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <cstdlib>  // Para system()
 #include <string>   // Para cin.ignore()
+#include <cstring>
 #include <cctype>
 
 using namespace std;
@@ -30,16 +31,17 @@ void clearScreen() {
     #endif
 }
 
+// Menu principal
 void menu(){
     clearScreen();
-    cout << " Menu Principal \n";
+    cout << "\t\t\t Menu Principal \n\n";
     cout << " 1. Crear nuevo Pokemon \n";
     cout << " 2. Ver todos los Pokemon \n";
     cout << " 3. Consultar un Pokemon \n";
     cout << " 4. Modificar un Pokemon \n";
     cout << " 5. Ordenar los Pokemon \n";
     cout << " 6. Eliminar Pokemon \n";
-    cout << " 7. Fitrar \n";
+    cout << " 7. Fitrar por tipos puros \n";
     cout << " 8. Salir \n";
     cout << " Su opcion : ";
 
@@ -65,6 +67,7 @@ int readInt() {
     }
 }
 
+// Funcion para adicionar un Pokemon
 void newPokemon() {
     FILE *archi;
     Pokemon pokemon;
@@ -164,7 +167,7 @@ void newPokemon() {
     fclose(archi);
 }
 
-
+// Funcion para mostrar todos los Pokemon
 void listPokemon() {
     FILE *archi;
     Pokemon pokemon;
@@ -195,7 +198,7 @@ void listPokemon() {
     fclose(archi);
 }
 
-
+// Funcion para buscar un Pokemon por su ID
 void searchPokemon(){
     FILE *archi;
     int ID;
@@ -252,6 +255,7 @@ void searchPokemon(){
     }
 }
 
+// Funcion para modificar los datos de un Pokemon
 void modifyPokemon(){
     FILE *archi;
     int ID, pos, k, found = 0;
@@ -377,6 +381,7 @@ void modifyPokemon(){
     
 }
 
+// Funcion para ordenar toda la Pokedex de distintos modos
 void sortPokemon(){
     int op = 0;
     Pokemon pokemon;
@@ -541,6 +546,7 @@ void sortPokemon(){
     }
 }
 
+// Funcion para elimnar el registro de un Pokemon
 void deletePokemon(){
     FILE *archi, *temp;
     int ID;
@@ -592,8 +598,93 @@ void deletePokemon(){
     cin.get(); 
 }
 
-void filterPokemon(){
+// Funcion para filtrar Pokemon segun su tipo
+void filterPokemon() {
+    Pokemon pokemon;
+    char filterType[20];
+    FILE *archi, *temp;
+    archi = fopen(archivo, "rb");
 
+    // Crear un archivo temporal en modo escritura
+    temp = fopen("type.bin", "wb");
+    if (temp == NULL) {
+        cout << "\n Error al crear el archivo temporal";
+        fclose(archi);
+        return;
+    }
+
+    if (archi == NULL) {
+        cout << "Error en la operación de archivo";
+        fclose(temp);  // Cerrar el archivo temporal si archi es NULL
+        return;
+    } else {
+        int type;  // Variable para capturar la opción ingresada por el usuario
+        cout << "\nQue tipo desea filtrar?: \n";
+        cout << "1. Planta" << "     7. Normal" << "       13. Roca" << endl;
+        cout << "2. Veneno" << "     8. Eléctrico" << "    14. Acero" << endl;
+        cout << "3. Fuego" << "      9. Tierra" << "       15. Hielo" << endl;
+        cout << "4. Volador" << "    10. Hada" << "        16. Fantasma" << endl;
+        cout << "5. Agua" << "       11. Lucha" << "       17. Dragón" << endl;
+        cout << "6. Bicho" << "      12. Psíquico" << "    18. Siniestro" << endl;
+        cout << "\nSu opción: ";
+        type = readInt();
+
+        switch (type) {
+            case 1: strcpy(filterType, "Planta"); break;
+            case 2: strcpy(filterType, "Veneno"); break;
+            case 3: strcpy(filterType, "Fuego"); break;
+            case 4: strcpy(filterType, "Volador"); break;
+            case 5: strcpy(filterType, "Agua"); break;
+            case 6: strcpy(filterType, "Bicho"); break;
+            case 7: strcpy(filterType, "Normal"); break;
+            case 8: strcpy(filterType, "Eléctrico"); break;
+            case 9: strcpy(filterType, "Tierra"); break;
+            case 10: strcpy(filterType, "Hada"); break;
+            case 11: strcpy(filterType, "Lucha"); break;
+            case 12: strcpy(filterType, "Psíquico"); break;
+            case 13: strcpy(filterType, "Roca"); break;
+            case 14: strcpy(filterType, "Acero"); break;
+            case 15: strcpy(filterType, "Hielo"); break;
+            case 16: strcpy(filterType, "Fantasma"); break;
+            case 17: strcpy(filterType, "Dragón"); break;
+            case 18: strcpy(filterType, "Siniestro"); break;
+            default:
+                cout << "Opción no válida. Se asignará 'Desconocido'." << endl;
+                strcpy(filterType, "Desconocido");
+                break;
+        }
+        cout << "---------------------------------------------------------------------------------\n"; 
+
+        // Leer y copiar solo los registros que coincidan con el tipo filtrado
+        while (fread(&pokemon, sizeof(Pokemon), 1, archi) == 1) {
+            if (strcmp(filterType, pokemon.type) == 0) {
+                fwrite(&pokemon, sizeof(Pokemon), 1, temp);
+                // Imprimir los detalles de cada Pokemon del tipo filtrado
+                cout << "ID: " << pokemon.id << "\n";
+                cout << "Nombre: " << pokemon.name << "\n";
+                cout << "Tipo: " << pokemon.type << "\n";
+                cout << "Vida: " << pokemon.hp << "\n";
+                cout << "Ataque: " << pokemon.attack << "\n";
+                cout << "Defensa: " << pokemon.defense << "\n";
+                cout << "Ataque Especial: " << pokemon.specialAttack << "\n";
+                cout << "Defensa Especial: " << pokemon.specialDefense << "\n";
+                cout << "Velocidad: " << pokemon.speed << "\n";
+                cout << "Descripción: " << pokemon.description << "\n";
+                cout << "---------------------------------------------------------------------------------\n";
+            }
+        }
+
+        // Cerrar archivos
+        fclose(archi);
+        fclose(temp);
+
+        cout << "\n\nPresione Enter para continuar...";
+        cin.ignore();
+        cin.get();
+
+        // Eliminar el archivo temporal
+        remove("type.bin");
+    }        
 }
 
 
