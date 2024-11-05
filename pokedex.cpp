@@ -45,6 +45,26 @@ void menu(){
 
 }
 
+// Funcion para validar la entrada de numeros positivos
+int readInt() {
+    int value;
+
+    while (true) {
+        cin >> value; // Recibe la entrada
+
+        // Verifica si la entrada es válida y si es un número positivo
+        if (cin.fail() || value <= 0) {
+            // Si hay un error, se limpia el estado de error y el buffer
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Entrada inválida. Por favor, ingrese un número positivo." << endl;
+        } else {
+            // Retorna el número válido
+            return value;
+        }
+    }
+}
+
 void newPokemon() {
     FILE *archi;
     Pokemon pokemon;
@@ -85,7 +105,7 @@ void newPokemon() {
     cout << "6. Bicho" << "      12. Psíquico" << "    18. Siniestro" << endl;
 
     cout << "Su opcion: ";
-    cin >> type;
+    type = readInt();
 
     switch (type) {
         case 1: strcpy(pokemon.type, "Planta"); break;
@@ -104,6 +124,8 @@ void newPokemon() {
         case 14: strcpy(pokemon.type, "Acero"); break;
         case 15: strcpy(pokemon.type, "Hielo"); break;
         case 16: strcpy(pokemon.type, "Fantasma"); break;
+        case 17: strcpy(pokemon.type, "Dragón"); break;
+        case 18: strcpy(pokemon.type, "Siniestro"); break;
         default:
             cout << "Opción no válida. Se asignará 'Desconocido'." << endl;
             strcpy(pokemon.type, "Desconocido"); break;
@@ -111,22 +133,22 @@ void newPokemon() {
 
     cout << "\t\t\tESTADÍSTICAS\n\n";
     cout << "Ingrese su vida: ";
-    cin >> pokemon.hp;
+    pokemon.hp = readInt();
 
     cout << "Ingrese su ataque: ";
-    cin >> pokemon.attack;
+    pokemon.attack = readInt();
 
     cout << "Ingrese su defensa: ";
-    cin >> pokemon.defense;
+    pokemon.defense = readInt();
 
     cout << "Ingrese su ataque especial: ";
-    cin >> pokemon.specialAttack;
+    pokemon.specialAttack = readInt();
 
     cout << "Ingrese su defensa especial: ";
-    cin >> pokemon.specialDefense;
+    pokemon.specialDefense = readInt();
 
     cout << "Ingrese su velocidad: ";
-    cin >> pokemon.speed;
+    pokemon.speed = readInt();
 
     cin.ignore();
 
@@ -191,8 +213,7 @@ void searchPokemon(){
             int found = 0;
 
             cout << "Ingrese el ID a consultar: ";
-            cin >> ID;
-            cin.ignore();
+            ID = readInt();
 
             while (fread(&pokemon, sizeof(pokemon), 1, archi) && !found)
             {
@@ -206,10 +227,10 @@ void searchPokemon(){
 
             if (!found)
             {
-                cout << "\n El Pokemon no esta registrado";
-                cout << "\nPresiones Enter para continuar...";
+                cout << "\n El Pokemon no esta registrado.";
                 cin.get();
             } else {
+                cout << "\n--------------------------------------------------------------------\n";
                 cout << "Nombre: " << pokemon.name << "\n";
                 cout << "Tipo: " << pokemon.type << "\n";
                 cout << "Vida: " << pokemon.hp << "\n";
@@ -219,9 +240,10 @@ void searchPokemon(){
                 cout << "Defensa Especial: " << pokemon.specialDefense << "\n";
                 cout << "Velocidad: " << pokemon.speed << "\n";
                 cout << "Descripción: " << pokemon.description << "\n";
+                cout << "--------------------------------------------------------------------\n";
             }
 
-            cout << "\n Desea consultar otro Pokemon S/N ";
+            cout << "\n Desea consultar otro Pokemon S/N :";
             cin >> confirm;
             cin.ignore();
 
@@ -246,8 +268,7 @@ void modifyPokemon(){
             rewind(archi);
             k = 0;
             cout << "Ingrese ID del Pokemon a modificar: ";
-            cin >> ID;
-            cin.ignore();
+            ID = readInt();
 
             while (fread(&pokemon, sizeof(pokemon), 1, archi) && !found) 
             {
@@ -291,7 +312,7 @@ void modifyPokemon(){
                 cout << "5. Agua" << "       11. Lucha" << "       17. Dragón" << endl;
                 cout << "6. Bicho" << "      12. Psíquico" << "    18. Siniestro" << endl;
 
-                cin >> type;
+                type = readInt();
 
                 switch (type) {
                     case 1: strcpy(pokemon.type, "Planta"); break;
@@ -310,6 +331,8 @@ void modifyPokemon(){
                     case 14: strcpy(pokemon.type, "Acero"); break;
                     case 15: strcpy(pokemon.type, "Hielo"); break;
                     case 16: strcpy(pokemon.type, "Fantasma"); break;
+                    case 17: strcpy(pokemon.type, "Dragón"); break;
+                    case 18: strcpy(pokemon.type, "Siniestro"); break;
                     default:
                         cout << "Opción no válida. Se asignará 'Desconocido'." << endl;
                         strcpy(pokemon.type, "Desconocido"); break;
@@ -317,22 +340,22 @@ void modifyPokemon(){
 
                 cout << "\t\t\tNUEVAS ESTADÍSTICAS\n\n";
                 cout << "Ingrese su vida: ";
-                cin >> pokemon.hp;
+                pokemon.hp = readInt();
 
                 cout << "Ingrese su ataque: ";
-                cin >> pokemon.attack;
+                pokemon.attack = readInt();
 
                 cout << "Ingrese su defensa: ";
-                cin >> pokemon.defense;
+                pokemon.defense = readInt();
 
                 cout << "Ingrese su ataque especial: ";
-                cin >> pokemon.specialAttack;
+                pokemon.specialAttack = readInt();
 
                 cout << "Ingrese su defensa especial: ";
-                cin >> pokemon.specialDefense;
+                pokemon.specialDefense = readInt();
 
                 cout << "Ingrese su velocidad: ";
-                cin >> pokemon.speed;
+                pokemon.speed = readInt();
 
                 cin.ignore();
 
@@ -377,7 +400,7 @@ void sortPokemon(){
             cout << " 7. Por Defensa especial \n";
             cout << " 8. Por Velocidad \n";
             cout << "Su opcion: "; 
-            cin >> op;
+            op = readInt();
         } while (op <= 0 || op > 8);
 
         // Contar la cantidad de registros
@@ -541,8 +564,7 @@ void deletePokemon(){
     }
 
     cout << "\n Ingrese el ID del Pokemon a eliminar: ";
-    cin >> ID;
-    cin.ignore();
+    ID = readInt();
 
     // Leer y copiar solo los registros que no coincidan con el ID a eliminar
     while (fread(&pokemon, sizeof(Pokemon), 1, archi)) {
@@ -580,7 +602,7 @@ int main() {
     char exit = 0;
     do {
         menu();
-        cin >> op;
+        op = readInt();
           // Ignorar el salto de línea después de la entrada
         clearScreen();
         switch (op) {
