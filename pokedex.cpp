@@ -22,6 +22,18 @@ struct Pokemon {
 
 char *archivo = (char *)"pokedex1.bin";
 
+void playMusic(){
+    #ifdef _WIN32
+    // Reproducir el archivo de música en Windows
+    system("start /min wmplayer Littleroot_Town.mp3");
+    #elif defined(__APPLE__)
+    // Reproducir el archivo de música en macOS
+    system("afplay Littleroot_Town.mp3 &");
+    #else
+    std::cerr << "Error: sistema operativo no soportado." << std::endl;
+    #endif
+}
+
 // Funcion para limpiar pantalla dependiendo del sistema operativo
 void clearScreen() {
     #ifdef _WIN32
@@ -546,7 +558,7 @@ void sortPokemon(){
     }
 }
 
-// Funcion para elimnar el registro de un Pokemon
+// Funcion para eliminar el registro de un Pokemon
 void deletePokemon(){
     FILE *archi, *temp;
     int ID;
@@ -689,6 +701,7 @@ void filterPokemon() {
 
 
 int main() {
+    playMusic();
     int op;
     char exit = 0;
     do {
