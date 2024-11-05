@@ -182,7 +182,7 @@ void searchPokemon(){
         cout << "\n Error en la operacion de archivo";
     } else {
         do
-        {
+        { 
             rewind(archi); // Inicio del archivo
             int found = 0;
 
@@ -280,10 +280,13 @@ void modifyPokemon(){
 
                 int type;  // Variable para capturar la opción ingresada por el usuario
                 cout << "Nuevo tipo: \n";
-                cout << "1. Planta" << "     5. Agua" << "         9.  Tierra" << "     13. Roca" << endl;
-                cout << "2. Veneno" << "     6. Bicho" << "        10. Hada" << "       14. Acero" << endl;
-                cout << "3. Fuego" << "      7. Normal" << "       11. Lucha" << "      15. Hielo" << endl;
-                cout << "4. Volador" << "    8. Electrico" << "    12. Psiquico" << "   16. Fantasma" << endl;
+                cout << "1. Planta" << "     7. Normal" << "       13. Roca" << endl;
+                cout << "2. Veneno" << "     8. Eléctrico" << "    14. Acero" << endl;
+                cout << "3. Fuego" << "      9.  Tierra" << "      15. Hielo" << endl;
+                cout << "4. Volador" << "    10. Hada" << "        16. Fantasma" << endl;
+                cout << "5. Agua" << "       11. Lucha" << "       17. Dragón" << endl;
+                cout << "6. Bicho" << "      12. Psíquico" << "    18. Siniestro" << endl;
+
                 cin >> type;
 
                 switch (type) {
@@ -348,7 +351,167 @@ void modifyPokemon(){
 }
 
 void sortPokemon(){
+    int op = 0;
+    Pokemon pokemon;
 
+    FILE *archi;
+    archi = fopen(archivo, "rb");
+
+    if (archi == NULL)
+    {
+        cout << "Error en la operacio de archivo";
+    } else {
+        do
+        {
+            cout << "\nComo desea ordenar los datos\n";
+            cout << "\n 1. Por ID \n";
+            cout << " 2. Por Nombre \n";
+            cout << " 3. Por Vida \n";
+            cout << " 4. Por Ataque \n";
+            cout << " 5. Por Defensa \n";
+            cout << " 6. Por Ataque especial \n";
+            cout << " 7. Por Defensa especial \n";
+            cout << " 8. Por Velocidad \n";
+            cout << "Su opcion: "; 
+            cin >> op;
+        } while (op <= 0 || op > 8);
+
+        // Contar la cantidad de registros
+        int count = 0;
+        
+        while (fread(&pokemon, sizeof(Pokemon), 1, archi)) {
+                count++;
+            }
+
+        Pokemon currentPokemon[count];
+        rewind(archi);
+        fread(currentPokemon, sizeof(Pokemon), count, archi);
+        fclose(archi);
+
+        switch (op)
+        {
+
+        // Ordenar por ID
+        case 1 : 
+            for (int i = 0; i < count - 1; i++) {
+                for (int j = i + 1; j < count; j++) {
+
+                    if (currentPokemon[i].id > currentPokemon[j].id) {
+                        Pokemon tempId = currentPokemon[i];
+                        currentPokemon[i] = currentPokemon[j];
+                        currentPokemon[j] = tempId;
+                    }
+                }    
+            } 
+            break;
+
+        
+        // Ordenar por nombre
+        case 2 : 
+            for (int i = 0; i < count - 1; i++) {
+                    for (int j = i + 1; j < count; j++) {
+
+                        if (strcmp(currentPokemon[i].name, currentPokemon[j].name) > 0) {
+                            Pokemon tempName = currentPokemon[i];
+                            currentPokemon[i] = currentPokemon[j];
+                            currentPokemon[j] = tempName;
+                        }
+                    }
+                }
+                break;
+        
+        // Ordenar por HP (vida)
+        case 3 : 
+            for (int i = 0; i < count - 1; i++) {
+                for (int j = i + 1; j < count; j++) {
+
+                    if (currentPokemon[i].hp > currentPokemon[j].hp) {
+                        Pokemon tempHp = currentPokemon[i];
+                        currentPokemon[i] = currentPokemon[j];
+                        currentPokemon[j] = tempHp;
+                    }
+                }    
+            } 
+            break;
+
+        // Ordenar por Ataque
+        case 4 : 
+            for (int i = 0; i < count - 1; i++) {
+                for (int j = i + 1; j < count; j++) {
+
+                    if (currentPokemon[i].attack > currentPokemon[j].attack) {
+                        Pokemon tempAttack = currentPokemon[i];
+                        currentPokemon[i] = currentPokemon[j];
+                        currentPokemon[j] = tempAttack;
+                    }
+                }    
+            } 
+            break;
+
+        //Ordenar por Defensa
+        case 5 : 
+            for (int i = 0; i < count - 1; i++) {
+                for (int j = i + 1; j < count; j++) {
+
+                    if (currentPokemon[i].defense > currentPokemon[j].defense) {
+                        Pokemon tempDefense = currentPokemon[i];
+                        currentPokemon[i] = currentPokemon[j];
+                        currentPokemon[j] = tempDefense;
+                    }
+                }    
+            } 
+            break;
+
+        //Ordenar por Ataque Especial
+        case 6 : 
+            for (int i = 0; i < count - 1; i++) {
+                for (int j = i + 1; j < count; j++) {
+
+                    if (currentPokemon[i].specialAttack > currentPokemon[j].specialAttack) {
+                        Pokemon tempSAttack = currentPokemon[i];
+                        currentPokemon[i] = currentPokemon[j];
+                        currentPokemon[j] = tempSAttack;
+                    }
+                }    
+            } 
+            break;
+
+        //Ordenar por Defensa Especial
+        case 7 : 
+            for (int i = 0; i < count - 1; i++) {
+                for (int j = i + 1; j < count; j++) {
+
+                    if (currentPokemon[i].specialDefense > currentPokemon[j].specialDefense) {
+                        Pokemon tempSDefense = currentPokemon[i];
+                        currentPokemon[i] = currentPokemon[j];
+                        currentPokemon[j] = tempSDefense;
+                    }
+                }    
+            } 
+            break;
+
+        //Ordenar por Velocidad
+        case 8 : 
+            for (int i = 0; i < count - 1; i++) {
+                for (int j = i + 1; j < count; j++) {
+
+                    if (currentPokemon[i].speed > currentPokemon[j].speed) {
+                        Pokemon tempSpeed = currentPokemon[i];
+                        currentPokemon[i] = currentPokemon[j];
+                        currentPokemon[j] = tempSpeed;
+                    }
+                }    
+            } 
+            break;
+
+        }
+
+        // Guardar los datos ordenados de vuelta en el archivo
+        archi = fopen(archivo, "wb");
+        fwrite(currentPokemon, sizeof(Pokemon), count, archi);
+        fclose(archi);
+        cout << "\n Los datos han sido ordenados y guardados correctamente.\n";
+    }
 }
 
 void deletePokemon(){
