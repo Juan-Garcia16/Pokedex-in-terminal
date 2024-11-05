@@ -77,10 +77,14 @@ void newPokemon() {
 
     int type;  // Variable para capturar la opción ingresada por el usuario
     cout << "Ingrese su tipo: \n";
-    cout << "1. Planta" << "     5. Agua" << "         9.  Tierra" << "     13. Roca" << endl;
-    cout << "2. Veneno" << "     6. Bicho" << "        10. Hada" << "       14. Acero" << endl;
-    cout << "3. Fuego" << "      7. Normal" << "       11. Lucha" << "      15. Hielo" << endl;
-    cout << "4. Volador" << "    8. Electrico" << "    12. Psiquico" << "   16. Fantasma" << endl;
+    cout << "1. Planta" << "     7. Normal" << "       13. Roca" << endl;
+    cout << "2. Veneno" << "     8. Eléctrico" << "    14. Acero" << endl;
+    cout << "3. Fuego" << "      9.  Tierra" << "      15. Hielo" << endl;
+    cout << "4. Volador" << "    10. Hada" << "        16. Fantasma" << endl;
+    cout << "5. Agua" << "       11. Lucha" << "       17. Dragón" << endl;
+    cout << "6. Bicho" << "      12. Psíquico" << "    18. Siniestro" << endl;
+
+    cout << "Su opcion: ";
     cin >> type;
 
     switch (type) {
