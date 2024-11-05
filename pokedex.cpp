@@ -53,7 +53,7 @@ void menu(){
     cout << " 4. Modificar un Pokemon \n";
     cout << " 5. Ordenar los Pokemon \n";
     cout << " 6. Eliminar Pokemon \n";
-    cout << " 7. Fitrar por tipos puros \n";
+    cout << " 7. Filtrar por tipos puros \n";
     cout << " 8. Salir \n";
     cout << " Su opcion : ";
 
@@ -107,8 +107,14 @@ void newPokemon() {
     // Limpiar el buffer
     cin.ignore();
 
-    cout << "Ingrese el nombre del Pokemon: ";
-    cin.getline(pokemon.name, sizeof(pokemon.name));
+    // Validar que el nombre no esté vacío
+    do {
+        cout << "Ingrese el nombre del Pokemon: ";
+        cin.getline(pokemon.name, sizeof(pokemon.name));
+        if (strlen(pokemon.name) == 0) {
+            cout << "El nombre no puede estar vacío. Inténtelo de nuevo." << endl;
+        }
+    } while (strlen(pokemon.name) == 0);
 
     int type;  // Variable para capturar la opción ingresada por el usuario
     cout << "Ingrese su tipo: \n";
@@ -174,7 +180,9 @@ void newPokemon() {
     fseek(archi, 0, SEEK_END);
     fwrite(&pokemon, sizeof(Pokemon), 1, archi);
 
-    cout << "¡Pokemon anadido exitosamente con ID " << pokemon.id << "!" << endl;
+    cout << "\n¡Pokemon anadido exitosamente con ID " << pokemon.id << "!" << endl;
+    cout << "Presione Enter para continuar..." << endl;
+    cin.get();  // Espera una entrada del usuario
 
     fclose(archi);
 }
