@@ -46,7 +46,7 @@ void clearScreen() {
 // Menu principal
 void menu(){
     clearScreen();
-    cout << "\t\t\t Menu Principal \n\n";
+    cout << "\t\t\t POKEDEX \n\n";
     cout << " 1. Crear nuevo Pokemon \n";
     cout << " 2. Ver todos los Pokemon \n";
     cout << " 3. Consultar un Pokemon \n";
@@ -211,7 +211,7 @@ void listPokemon() {
             cout << "---------------------------------------------------------------------------------\n";
         }
 
-        cout << "\n\nPresione Enter para continuar...";
+        cout << "\nPresione Enter para continuar...";
         cin.ignore();
         cin.get();
     }
@@ -311,7 +311,7 @@ void modifyPokemon(){
                 cout << "Presione Enter para continuar...";
                 cin.get();
             } else {
-                cout << "\n\t\t Datos actuales\n\n";
+                cout << "\n\t\t Datos actuales\n";
                 cout << "Nombre: " << pokemon.name << "\n";
                 cout << "Tipo: " << pokemon.type << "\n";
                 cout << "Vida: " << pokemon.hp << "\n";
@@ -323,6 +323,7 @@ void modifyPokemon(){
                 cout << "Descripción: " << pokemon.description << "\n";
 
                 pokemon.id = ID;
+                cin.ignore();
                 cout << "\n------------------------------------------------------------\n";
                 cout << "Nuevo nombre: ";
                 cin.getline(pokemon.name, sizeof(pokemon.name));
@@ -335,6 +336,7 @@ void modifyPokemon(){
                 cout << "4. Volador" << "    10. Hada" << "        16. Fantasma" << endl;
                 cout << "5. Agua" << "       11. Lucha" << "       17. Dragón" << endl;
                 cout << "6. Bicho" << "      12. Psíquico" << "    18. Siniestro" << endl;
+                cout << "Su opcion: ";
 
                 type = readInt();
 
@@ -561,8 +563,12 @@ void sortPokemon(){
         // Guardar los datos ordenados de vuelta en el archivo
         archi = fopen(archivo, "wb");
         fwrite(currentPokemon, sizeof(Pokemon), count, archi);
-        fclose(archi);
+
         cout << "\n Los datos han sido ordenados y guardados correctamente.\n";
+        cout << "Presione Enter para continuar..." << endl;
+        cin.get();  // Espera una entrada del usuario
+        fclose(archi);
+        
     }
 }
 
