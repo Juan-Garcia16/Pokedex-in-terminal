@@ -515,7 +515,55 @@ void sortPokemon(){
 }
 
 void deletePokemon(){
+    FILE *archi, *temp;
+    int ID;
+    Pokemon pokemon;
+    int found = 0;
 
+    archi = fopen(archivo, "rb");
+    if (archi == NULL)
+    {
+        cout << "\n Error en la operacion de archivo";
+        return;
+    }
+    
+    // Crear un archivo temporal en modo escritura
+    temp = fopen("temp.bin", "wb");
+    if (temp == NULL)
+    {
+        cout << "\n Error al crear el archivo temporal";
+        fclose(archi);
+        return;
+    }
+
+    cout << "\n Ingrese el ID del Pokemon a eliminar: ";
+    cin >> ID;
+    cin.ignore();
+
+    // Leer y copiar solo los registros que no coincidan con el ID a eliminar
+    while (fread(&pokemon, sizeof(Pokemon), 1, archi)) {
+        if (pokemon.id == ID) {
+            found = 1;
+            cout << "\n El Pokemon con ID " << ID << " ha sido eliminado.";
+        } else {
+            fwrite(&pokemon, sizeof(Pokemon), 1, temp);
+        }
+    }
+
+    fclose(archi);
+    fclose(temp);
+    
+    // Si se encuentra el registro se escribe un nuevo archivo original
+    if (found) {
+        remove(archivo);  // eliminar el archivo original
+        rename("temp.bin", archivo);  // eenombrar el archivo temporal al nombre original
+    } else {
+        cout << "\n No se encontro un Pokemon con el ID especificado.";
+        remove("temp.bin");  // eliminar el archivo temporal sin uso
+    }
+
+    cout << "\nPresione Enter para continuar...";
+    cin.get(); 
 }
 
 void filterPokemon(){
@@ -539,7 +587,7 @@ int main() {
             case 5: sortPokemon(); break; //esta en veremos
             case 6: deletePokemon(); break;
             case 7: filterPokemon(); break;
-            case 8: exit = 1; break;
+            case 8: exit = 1; break; 
         }
     } while (!exit);
     return 0;
