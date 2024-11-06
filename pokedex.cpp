@@ -18,6 +18,7 @@ struct Pokemon {
     int specialDefense;
     int speed;
     char description[200];
+
 };
 
 char *archivo = (char *)"pokedex1.bin";
