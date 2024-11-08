@@ -4,6 +4,8 @@
 #include <string>   // Para cin.ignore()
 #include <cstring>
 #include <cctype>
+#include <locale>
+#include <limits> // Para numeric_limits en readInt()
 
 using namespace std;
 
@@ -80,12 +82,6 @@ void menu(){
 }
 
 
-
-
-
-
-
-
 // Funcion para validar la entrada de numeros positivos
 int readInt() {
     int value;
@@ -93,12 +89,52 @@ int readInt() {
     while (true) {
         cin >> value; // Recibe la entrada
 
-        // Verifica si la entrada es válida y si es un número positivo
-        if (cin.fail() || value <= 0) {
+        // Verifica si la entrada es válida y si es un número positivo dentro del maximo permitido
+        if (cin.fail() || value <= 0 || value > numeric_limits<int>::max()) {
             // Si hay un error, se limpia el estado de error y el buffer
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             cout << "Entrada inválida. Por favor, ingrese un número positivo." << endl;
+        } else {
+            // Retorna el número válido
+            return value;
+        }
+    }
+}
+
+// Funcion para validar la entrada de numeros permitidos para el tipo de Pokemon
+int readType() {
+    int value;
+
+    while (true) {
+        cin >> value; // Recibe la entrada
+
+        // Verifica si la entrada es válida y si es un número positivo dentro del rango permitido
+        if (cin.fail() || value <= 0 || value > 18) {
+            // Si hay un error, se limpia el estado de error y el buffer
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Entrada inválida. Por favor, ingrese un número entre 1 y 18." << endl;
+        } else {
+            // Retorna el número válido
+            return value;
+        }
+    }
+}
+
+// Funcion para validar estadisticas reales de un pokemon
+int readStats() {
+    int value;
+
+    while (true) {
+        cin >> value; // Recibe la entrada
+
+        // Verifica si la entrada es válida y si no se pasa del maximo
+        if (cin.fail() || value <= 0 || value > 255) {
+            // Si hay un error, se limpia el estado de error y el buffer
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Entrada inválida, ingrese un numero. Valor minimo 1, valor maximo 255." << endl;
         } else {
             // Retorna el número válido
             return value;
@@ -153,7 +189,7 @@ void newPokemon() {
     cout << "6. Bicho" << "      12. Psíquico" << "    18. Siniestro" << endl;
 
     cout << "Su opcion: ";
-    type = readInt();
+    type = readType();
 
     switch (type) {
         case 1: strcpy(pokemon.type, "Planta"); break;
@@ -174,34 +210,39 @@ void newPokemon() {
         case 16: strcpy(pokemon.type, "Fantasma"); break;
         case 17: strcpy(pokemon.type, "Dragón"); break;
         case 18: strcpy(pokemon.type, "Siniestro"); break;
-        default:
-            cout << "Opción no válida. Se asignará 'Desconocido'." << endl;
-            strcpy(pokemon.type, "Desconocido"); break;
     }
 
     cout << "\t\t\tESTADÍSTICAS\n\n";
     cout << "Ingrese su vida: ";
-    pokemon.hp = readInt();
+    pokemon.hp = readStats();
 
     cout << "Ingrese su ataque: ";
-    pokemon.attack = readInt();
+    pokemon.attack = readStats();
 
     cout << "Ingrese su defensa: ";
-    pokemon.defense = readInt();
+    pokemon.defense = readStats();
 
     cout << "Ingrese su ataque especial: ";
-    pokemon.specialAttack = readInt();
+    pokemon.specialAttack = readStats();
 
     cout << "Ingrese su defensa especial: ";
-    pokemon.specialDefense = readInt();
+    pokemon.specialDefense = readStats();
 
     cout << "Ingrese su velocidad: ";
-    pokemon.speed = readInt();
+    pokemon.speed = readStats();
 
     cin.ignore();
 
-    cout << "Ingrese una breve descripcion del Pokemon: ";
-    cin.getline(pokemon.description, sizeof(pokemon.description));
+    do
+    {
+        cout << "Ingrese una breve descripcion del Pokemon: ";
+        cin.getline(pokemon.description, sizeof(pokemon.description));
+        if (strlen(pokemon.description) == 0) {
+            cout << "La descripcion no puede estar vacía. Inténtelo de nuevo." << endl;
+        }
+    } while (strlen(pokemon.description) == 0);
+    
+    
 
     // Posicionar el puntero al final del archivo para agregar el nuevo Pokomon
     fseek(archi, 0, SEEK_END);
@@ -352,8 +393,18 @@ void modifyPokemon(){
                 pokemon.id = ID;
                 cin.ignore();
                 cout << "\n------------------------------------------------------------\n";
-                cout << "Nuevo nombre: ";
-                cin.getline(pokemon.name, sizeof(pokemon.name));
+
+                do
+                {
+                    cout << "Nuevo nombre: ";
+                    cin.getline(pokemon.name, sizeof(pokemon.name));
+                    if (strlen(pokemon.name) == 0)
+                    {
+                        cout << "El nombre no puede estar vacío. Inténtelo de nuevo." << endl;
+                    }
+                    
+                } while (strlen(pokemon.name) == 0);
+                
 
                 int type;  // Variable para capturar la opción ingresada por el usuario
                 cout << "Nuevo tipo: \n";
@@ -365,7 +416,7 @@ void modifyPokemon(){
                 cout << "6. Bicho" << "      12. Psíquico" << "    18. Siniestro" << endl;
                 cout << "Su opcion: ";
 
-                type = readInt();
+                type = readType();
 
                 switch (type) {
                     case 1: strcpy(pokemon.type, "Planta"); break;
@@ -386,34 +437,40 @@ void modifyPokemon(){
                     case 16: strcpy(pokemon.type, "Fantasma"); break;
                     case 17: strcpy(pokemon.type, "Dragón"); break;
                     case 18: strcpy(pokemon.type, "Siniestro"); break;
-                    default:
-                        cout << "Opción no válida. Se asignará 'Desconocido'." << endl;
-                        strcpy(pokemon.type, "Desconocido"); break;
                 }
 
                 cout << "\t\t\tNUEVAS ESTADÍSTICAS\n\n";
                 cout << "Ingrese su vida: ";
-                pokemon.hp = readInt();
+                pokemon.hp = readStats();
 
                 cout << "Ingrese su ataque: ";
-                pokemon.attack = readInt();
+                pokemon.attack = readStats();
 
                 cout << "Ingrese su defensa: ";
-                pokemon.defense = readInt();
+                pokemon.defense = readStats();
 
                 cout << "Ingrese su ataque especial: ";
-                pokemon.specialAttack = readInt();
+                pokemon.specialAttack = readStats();
 
                 cout << "Ingrese su defensa especial: ";
-                pokemon.specialDefense = readInt();
+                pokemon.specialDefense = readStats();
 
                 cout << "Ingrese su velocidad: ";
-                pokemon.speed = readInt();
+                pokemon.speed = readStats();
 
                 cin.ignore();
 
-                cout << "Ingrese una breve descripcion del Pokemon: ";
-                cin.getline(pokemon.description, sizeof(pokemon.description));
+                do
+                {
+                    cout << "Ingrese una breve descripcion del Pokemon: ";
+                    cin.getline(pokemon.description, sizeof(pokemon.description));
+                    if (strlen(pokemon.description) == 0)
+                    {
+                        cout << "La descripcion no puede estar vacía. Inténtelo de nuevo." << endl;
+                    }
+                    
+                } while (strlen(pokemon.description) == 0);
+                
 
                 fseek(archi, (long)pos * sizeof(pokemon), SEEK_SET);
                 fwrite(&pokemon, sizeof(pokemon), 1, archi);
@@ -629,7 +686,7 @@ void deletePokemon(){
     while (fread(&pokemon, sizeof(Pokemon), 1, archi)) {
         if (pokemon.id == ID) {
             found = 1;
-            cout << "\n El Pokemon con ID " << ID << " ha sido eliminado.";
+            cout << "\n El Pokemon con ID " << ID << " ha sido eliminado.\n";
         } else {
             fwrite(&pokemon, sizeof(Pokemon), 1, temp);
         }
@@ -643,12 +700,13 @@ void deletePokemon(){
         remove(archivo);  // eliminar el archivo original
         rename("temp.bin", archivo);  // eenombrar el archivo temporal al nombre original
     } else {
-        cout << "\n No se encontro un Pokemon con el ID especificado.";
+        cout << "\n No se encontro un Pokemon con el ID especificado." << endl;
         remove("temp.bin");  // eliminar el archivo temporal sin uso
     }
 
-    cout << "\nPresione Enter para continuar...";
-    cin.get(); 
+    cout << "Presione Enter para continuar..." << endl;
+    cin.ignore(); // limpiar el buffer de entrada
+    cin.get();  // Espera una entrada del usuario
 }
 
 // Funcion para filtrar Pokemon segun su tipo
@@ -680,7 +738,7 @@ void filterPokemon() {
         cout << "5. Agua" << "       11. Lucha" << "       17. Dragón" << endl;
         cout << "6. Bicho" << "      12. Psíquico" << "    18. Siniestro" << endl;
         cout << "\nSu opción: ";
-        type = readInt();
+        type = readType();
 
         switch (type) {
             case 1: strcpy(filterType, "Planta"); break;
@@ -701,10 +759,6 @@ void filterPokemon() {
             case 16: strcpy(filterType, "Fantasma"); break;
             case 17: strcpy(filterType, "Dragón"); break;
             case 18: strcpy(filterType, "Siniestro"); break;
-            default:
-                cout << "Opción no válida. Se asignará 'Desconocido'." << endl;
-                strcpy(filterType, "Desconocido");
-                break;
         }
         cout << "---------------------------------------------------------------------------------\n"; 
 
@@ -747,6 +801,7 @@ void pokemonCombat(){
 
 
 int main() {
+    setlocale(LC_ALL, "es_ES.UTF-8");
     playMusic();
     int op;
     char exit = 0;
@@ -773,34 +828,3 @@ int main() {
 }
 
 
-/*
-    cout << "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n";
-    cout << "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣾⣿⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n";
-    cout << "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣾⣿⡿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n";
-    cout << "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⡟⠉⠀⠇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣴⣶⣿⡿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡤⢤\n";
-    cout << "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠋⠀⠐⠀⢰⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⡴⠖⢉⣿⣿⣿⠟⠡⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠖⠋⠀⡼\n";
-    cout << "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠰⡼⠀⠀⠈⢆⣸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⡴⠊⠁⠀⠀⢸⣿⡿⠃⡄⠀⠀⠀⠀⠀⠀⠀⠀⢀⡴⠊⠁⠀⠀⠀⡇\n";
-    cout << "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣇⠀⠀⠀⠀⢸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣤⠞⠁⠀⠀⠀⠀⠀⣾⠟⠡⠀⠀⠀⠀⠀⠀⠀⠀⢀⡴⠋⠀⠀⠀⠀⠀⠀⡏\n";
-    cout << "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠃⠀⠀⠀⠄⢼⠀⠀⢀⣀⣤⠤⠤⠤⣤⣀⣀⡤⠋⠀⠀⠀⠀⠀⠀⢀⡼⠃⠀⠀⠀⠀⠀⠀⠀⠀⢀⡴⠋⠀⠀⠀⠀⠀⠀⠀⢀⡇\n";
-    cout << "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡠⠟⠚⠉⠁⠀⠀⠀⠀⠀⠀⣠⠋⠀⠀⠀⠀⠀⠀⠀⣠⠋⠀⠀⠀⠀⠀⠀⠀⠀⣠⠞⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡇\n";
-    cout << "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠍⣀⠴⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠀⠀⠀⠀⠀⡠⣠⠞⠁⠀⠀⠀⠀⠀⠀⠀⣠⠞⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⠀\n";
-    cout << "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠶⢷⡀⠀⠀⠀⠀⠀⠀⢀⠞⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡴⠃⠀⣸⠀\n";
-    cout << "⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⢋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⡹⣦⠀⠀⠀⢀⡴⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡤⠔⠚⠁⠀\n";
-    cout << "⠀⠀⠀⠀⠀⠀⠀⠀⣠⠃⢸⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⠚⠀⠀⠀⠀⠀⠀⠀⠈⠁⠞⡹⢾⣧⣠⣠⠎⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡤⠔⠋⠁⠀⠀⠀⠀⠀\n";
-    cout << "⠀⠀⠀⠀⢀⣴⠮⡍⡏⠀⣿⣽⡄⠀⠀⠀⠀⢀⠀⣠⢶⣿⣿⣧⠀⠀⢠⠞⠀⠀⢠⡏⣳⣯⠚⠉⠯⢽⣷⢤⡀⠀⠀⠀⠀⠀⢠⠴⠚⠁⠀⠃⠀⠀⠀⠀⠀⠀⠀\n";
-    cout << "⢸⡉⢆⣀⡏⡰⣦⣇⡟⣦⠹⠿⠿⠀⠀⠀⠀⠘⠞⠹⢾⣿⣿⢟⣠⣒⣿⠿⣭⣲⣼⡿⠘⠞⠠⠀⠁⠀⢳⡄⠉⠳⢦⡀⠀⠀⠈⠳⢆⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n";
-    cout << "⠢⠇⣴⣆⣺⡵⢹⣿⣉⢿⣇⠀⠀⠀⠦⠀⠀⠀⠀⠀⠀⠀⢇⠀⣇⠈⠿⠒⢯⠀⠻⣃⠇⠀⠀⠀⠀⠀⣜⣿⡄⠀⠀⠈⠓⢦⡀⠀⠀⠙⢦⡀⠀⠀⠀⠀⠀⠀⠀\n";
-    cout << "⠀⠀⠸⣑⢫⡵⠀⠈⠈⠳⣟⠀⠀⠙⠒⠒⠢⠤⠞⠁⠀⠀⠈⠀⠙⠣⠽⠶⠋⠀⠀⠚⠋⠀⠀⠀⠀⣼⣿⣿⣷⡀⠀⠀⢀⠜⠁⠀⠀⠀⠀⣹⠆⠀⠀⠀⠀⠀⠀\n";
-    cout << "⠀⠀⠀⠈⢪⠳⠀⠀⠀⠀⢈⠟⠂⣢⣄⡀⠀⠀⠀⠀⠀⠀⣀⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⠛⠛⠁⠀⢣⢠⡴⠋⠀⠀⠀⣠⠔⠋⡄⠐⠀⠀⠀⠀⠀⠀\n";
-    cout << "⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⢏⡴⠋⠁⠹⠷⣆⠀⠀⠀⢰⠏⠇⠈⠙⠲⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣿⡏⠀⠀⣠⠖⠋⠀⠀⠀⠁⠀⠀⠀⠀⠀⠀⠀\n";
-    cout << "⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡟⠀⠀⠁⢀⠀⡹⠄⠀⠀⢸⡄⠈⠒⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣿⣿⣿⣀⠀⠈⠷⠦⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n";
-    cout << "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢷⣀⠀⠀⣨⡷⢻⠀⠀⠀⠀⠹⣆⠀⠀⠀⠀⠀⠀⣀⣴⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⡏⣉⣾⣳⣬⣺⡷⠀⠀⠀⠀⠀⠀⠀⠀⠀\n";
-    cout << "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢩⠟⣇⠀⠁⠀⠀⠀⠀⠀⠈⠑⠢⠤⠤⠔⢊⠵⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⡿⠟⠋⢁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n";
-    cout << "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡟⠀⠸⠆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡼⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣷⡄⠀⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n";
-    cout << "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢷⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡿⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n";
-    cout << "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠳⣄⠀⠀⠈⠳⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠸⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n";
-    cout << "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣼⣗⡢⠤⠄⣈⣙⣲⣤⣀⡀⠀⠀⠀⠀⠀⠹⡀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣲⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n";
-    cout << "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢯⠏⣨⠎⣳⠤⠚⠉⠀⠀⠀⠉⠙⠓⠒⠒⠒⡒⠛⠲⢤⣀⣀⣀⣀⠤⠤⡾⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n";
-    cout << "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠁⠙⠉⠀⡄⠘⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣓⡍⠉⡒⡾⢡⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n";
-    cout << "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠁⠑⠋⠙⡃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n";
-*/
