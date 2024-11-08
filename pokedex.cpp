@@ -335,7 +335,7 @@ void modifyPokemon(){
             if (!found)
             {
                 cout << "El Pokemon no existe";
-                cout << "Presione Enter para continuar...";
+                cout << "\nPresione Enter para continuar...";
                 cin.get();
             } else {
                 cout << "\n\t\t Datos actuales\n";
