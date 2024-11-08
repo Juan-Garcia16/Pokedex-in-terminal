@@ -69,8 +69,8 @@ void menu(){
     cout << " 5. Ordenar los Pokemon       \t\t⠀⠀⠀⠈⢪⠳⠀⠀⠀⠀⢈⠟⠂⣢⣄⡀⠀⠀⠀⠀⠀⠀⣀⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⠛⠛⠁⠀⢣⢠⡴⠋⠀⠀⠀⣠⠔⠋⡄⠐⠀⠀⠀⠀⠀⠀\n";
     cout << " 6. Eliminar Pokemon          \t\t⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⢏⡴⠋⠁⠹⠷⣆⠀⠀⠀⢰⠏⠇⠈⠙⠲⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣿⡏⠀⠀⣠⠖⠋⠀⠀⠀⠁⠀⠀⠀⠀⠀⠀⠀\n";
     cout << " 7. Filtrar por tipos puros   \t\t⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡟⠀⠀⠁⢀⠀⡹⠄⠀⠀⢸⡄⠈⠒⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣿⣿⣿⣀⠀⠈⠷⠦⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n";
-    cout << " 8. Combate Pokemon           \t\t⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢷⣀⠀⠀⣨⡷⢻⠀⠀⠀⠀⠹⣆⠀⠀⠀⠀⠀⠀⣀⣴⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⡏⣉⣾⣳⣬⣺⡷⠀⠀⠀⠀⠀⠀⠀⠀⠀\n";
-    cout << " 9. Salir                     \t\t⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢩⠟⣇⠀⠁⠀⠀⠀⠀⠀⠈⠑⠢⠤⠤⠔⢊⠵⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⡿⠟⠋⢁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n";
+    cout << " 8. Salir                     \t\t⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢷⣀⠀⠀⣨⡷⢻⠀⠀⠀⠀⠹⣆⠀⠀⠀⠀⠀⠀⣀⣴⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⡏⣉⣾⣳⣬⣺⡷⠀⠀⠀⠀⠀⠀⠀⠀⠀\n";
+    cout << "                              \t\t⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢩⠟⣇⠀⠁⠀⠀⠀⠀⠀⠈⠑⠢⠤⠤⠔⢊⠵⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⡿⠟⠋⢁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n";
     cout << "                              \t\t⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡟⠀⠸⠆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡼⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣷⡄⠀⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n";
     cout << "                              \t\t⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢷⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡿⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n";
     cout << "                              \t\t⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠳⣄⠀⠀⠈⠳⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠸⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n";
@@ -344,28 +344,24 @@ void searchPokemon(){
 }
 
 // Funcion para modificar los datos de un Pokemon
-void modifyPokemon(){
+void modifyPokemon() {
     FILE *archi;
     int ID, pos, k, found = 0;
     Pokemon pokemon;
     char confirm;
 
     archi = fopen(archivo, "r+b");
-    if (archi == NULL)
-    {
-        cout << "\n Error en la operacion de archivo";
+    if (archi == NULL) {
+        cout << "\nError en la operacion de archivo";
     } else {
-        do
-        {
+        do {
             rewind(archi);
             k = 0;
             cout << "Ingrese ID del Pokemon a modificar: ";
             ID = readInt();
 
-            while (fread(&pokemon, sizeof(pokemon), 1, archi) && !found) 
-            {
-                if (ID == pokemon.id)
-                {
+            while (fread(&pokemon, sizeof(pokemon), 1, archi) && !found) {
+                if (ID == pokemon.id) {
                     found = 1;
                     pos = k;
                     break;
@@ -373,118 +369,145 @@ void modifyPokemon(){
                 k++;
             }
 
-            if (!found)
-            {
+            if (!found) {
                 cout << "El Pokemon no existe";
                 cout << "\nPresione Enter para continuar...";
+                cin.ignore();
                 cin.get();
-            } else {
-                cout << "\n\t\t Datos actuales\n";
-                cout << "Nombre: " << pokemon.name << "\n";
-                cout << "Tipo: " << pokemon.type << "\n";
-                cout << "Vida: " << pokemon.hp << "\n";
-                cout << "Ataque: " << pokemon.attack << "\n";
-                cout << "Defensa: " << pokemon.defense << "\n";
-                cout << "Ataque Especial: " << pokemon.specialAttack << "\n";
-                cout << "Defensa Especial: " << pokemon.specialDefense << "\n";
-                cout << "Velocidad: " << pokemon.speed << "\n";
-                cout << "Descripción: " << pokemon.description << "\n";
-
-                pokemon.id = ID;
-                cin.ignore();
-                cout << "\n------------------------------------------------------------\n";
-
-                do
-                {
-                    cout << "Nuevo nombre: ";
-                    cin.getline(pokemon.name, sizeof(pokemon.name));
-                    if (strlen(pokemon.name) == 0)
-                    {
-                        cout << "El nombre no puede estar vacío. Inténtelo de nuevo." << endl;
-                    }
-                    
-                } while (strlen(pokemon.name) == 0);
-                
-
-                int type;  // Variable para capturar la opción ingresada por el usuario
-                cout << "Nuevo tipo: \n";
-                cout << "1. Planta" << "     7. Normal" << "       13. Roca" << endl;
-                cout << "2. Veneno" << "     8. Eléctrico" << "    14. Acero" << endl;
-                cout << "3. Fuego" << "      9.  Tierra" << "      15. Hielo" << endl;
-                cout << "4. Volador" << "    10. Hada" << "        16. Fantasma" << endl;
-                cout << "5. Agua" << "       11. Lucha" << "       17. Dragón" << endl;
-                cout << "6. Bicho" << "      12. Psíquico" << "    18. Siniestro" << endl;
-                cout << "Su opcion: ";
-
-                type = readType();
-
-                switch (type) {
-                    case 1: strcpy(pokemon.type, "Planta"); break;
-                    case 2: strcpy(pokemon.type, "Veneno"); break;
-                    case 3: strcpy(pokemon.type, "Fuego"); break;
-                    case 4: strcpy(pokemon.type, "Volador"); break;
-                    case 5: strcpy(pokemon.type, "Agua"); break;
-                    case 6: strcpy(pokemon.type, "Bicho"); break;
-                    case 7: strcpy(pokemon.type, "Normal"); break;
-                    case 8: strcpy(pokemon.type, "Electrico"); break;
-                    case 9: strcpy(pokemon.type, "Tierra"); break;
-                    case 10: strcpy(pokemon.type, "Hada"); break;
-                    case 11: strcpy(pokemon.type, "Lucha"); break;
-                    case 12: strcpy(pokemon.type, "Psiquico"); break;
-                    case 13: strcpy(pokemon.type, "Roca"); break;
-                    case 14: strcpy(pokemon.type, "Acero"); break;
-                    case 15: strcpy(pokemon.type, "Hielo"); break;
-                    case 16: strcpy(pokemon.type, "Fantasma"); break;
-                    case 17: strcpy(pokemon.type, "Dragón"); break;
-                    case 18: strcpy(pokemon.type, "Siniestro"); break;
-                }
-
-                cout << "\t\t\tNUEVAS ESTADÍSTICAS\n\n";
-                cout << "Ingrese su vida: ";
-                pokemon.hp = readStats();
-
-                cout << "Ingrese su ataque: ";
-                pokemon.attack = readStats();
-
-                cout << "Ingrese su defensa: ";
-                pokemon.defense = readStats();
-
-                cout << "Ingrese su ataque especial: ";
-                pokemon.specialAttack = readStats();
-
-                cout << "Ingrese su defensa especial: ";
-                pokemon.specialDefense = readStats();
-
-                cout << "Ingrese su velocidad: ";
-                pokemon.speed = readStats();
-
-                cin.ignore();
-
-                do
-                {
-                    cout << "Ingrese una breve descripcion del Pokemon: ";
-                    cin.getline(pokemon.description, sizeof(pokemon.description));
-                    if (strlen(pokemon.description) == 0)
-                    {
-                        cout << "La descripcion no puede estar vacía. Inténtelo de nuevo." << endl;
-                    }
-                    
-                } while (strlen(pokemon.description) == 0);
-                
-
-                fseek(archi, (long)pos * sizeof(pokemon), SEEK_SET);
-                fwrite(&pokemon, sizeof(pokemon), 1, archi);
+                return;
             }
 
-            cout << "\n Desea modificar otro Pokemon S/N ";
-            cin >> confirm;
-            cin.ignore();
+            // Menu para seleccionar el campo a modificar
+            int option;
+            int type; // Declarar la variable type aquí
+            do {
+                cout << "\n---------------------------------------------";
+                cout << "\nSeleccione el campo a modificar:\n";
+                cout << "1. Nombre\n";
+                cout << "2. Tipo\n";
+                cout << "3. Vida\n";
+                cout << "4. Ataque\n";
+                cout << "5. Defensa\n";
+                cout << "6. Ataque Especial\n";
+                cout << "7. Defensa Especial\n";
+                cout << "8. Velocidad\n";
+                cout << "9. Descripción\n";
+                cout << "10. Salir y Guardar\n";
+                cout << "Opcion: ";
+                option = readInt();
 
-        } while (confirm == 's' || confirm == 'S');
-        
-        fclose(archi);
+                switch (option) {
+                    case 1:
+                        cout << "\n---------------------------------------------\n";
+                        do
+                        {
+                            cout << "Ingrese el nuevo nombre: ";
+                            cin.ignore();
+                            cin.getline(pokemon.name, sizeof(pokemon.name));
+                            if (strlen(pokemon.name) == 0)
+                            {
+                                cout << "El nombre no puede estar vacío. Inténtelo de nuevo." << endl;
+                            }
+                            
+                        } while (strlen(pokemon.name) == 0);
+                        
+                        break;
+                    case 2:
+                        cout << "\n---------------------------------------------\n";
+                        cout << "Ingrese el nuevo tipo: \n";
+                        cout << "1. Planta" << "     7. Normal" << "       13. Roca" << endl;
+                        cout << "2. Veneno" << "     8. Eléctrico" << "    14. Acero" << endl;
+                        cout << "3. Fuego" << "      9. Tierra" << "       15. Hielo" << endl;
+                        cout << "4. Volador" << "    10. Hada" << "        16. Fantasma" << endl;
+                        cout << "5. Agua" << "       11. Lucha" << "       17. Dragón" << endl;
+                        cout << "6. Bicho" << "      12. Psíquico" << "    18. Siniestro" << endl;
+                        cout << "Opcion: ";
+                        type = readType();
+                        switch (type) {
+                            case 1: strcpy(pokemon.type, "Planta"); break;
+                            case 2: strcpy(pokemon.type, "Veneno"); break;
+                            case 3: strcpy(pokemon.type, "Fuego"); break;
+                            case 4: strcpy(pokemon.type, "Volador"); break;
+                            case 5: strcpy(pokemon.type, "Agua"); break;
+                            case 6: strcpy(pokemon.type, "Bicho"); break;
+                            case 7: strcpy(pokemon.type, "Normal"); break;
+                            case 8: strcpy(pokemon.type, "Electrico"); break;
+                            case 9: strcpy(pokemon.type, "Tierra"); break;
+                            case 10: strcpy(pokemon.type, "Hada"); break;
+                            case 11: strcpy(pokemon.type, "Lucha"); break;
+                            case 12: strcpy(pokemon.type, "Psiquico"); break;
+                            case 13: strcpy(pokemon.type, "Roca"); break;
+                            case 14: strcpy(pokemon.type, "Acero"); break;
+                            case 15: strcpy(pokemon.type, "Hielo"); break;
+                            case 16: strcpy(pokemon.type, "Fantasma"); break;
+                            case 17: strcpy(pokemon.type, "Dragon"); break;
+                            case 18: strcpy(pokemon.type, "Siniestro"); break;
+                            default: cout << "Tipo inválido. No se realizaron cambios.\n"; break;
+                        }
+                        break;
+                    case 3:
+                        cout << "\n---------------------------------------------\n";
+                        cout << "Ingrese la nueva vida: ";
+                        pokemon.hp = readStats();
+                        break;
+                    case 4:
+                        cout << "\n---------------------------------------------\n";
+                        cout << "Ingrese el nuevo ataque: ";
+                        pokemon.attack = readStats();
+                        break;
+                    case 5:
+                        cout << "\n---------------------------------------------\n";
+                        cout << "Ingrese la nueva defensa: ";
+                        pokemon.defense = readStats();
+                        break;
+                    case 6:
+                        cout << "\n---------------------------------------------\n";
+                        cout << "Ingrese el nuevo ataque especial: ";
+                        pokemon.specialAttack = readStats();
+                        break;
+                    case 7:
+                        cout << "\n---------------------------------------------\n";
+                        cout << "Ingrese la nueva defensa especial: ";
+                        pokemon.specialDefense = readStats();
+                        break;
+                    case 8:
+                        cout << "\n---------------------------------------------\n";
+                        cout << "Ingrese la nueva velocidad: ";
+                        pokemon.speed = readStats();
+                        break;
+                    case 9:
+                        cout << "\n---------------------------------------------\n";
+                        do
+                        {
+                            cout << "Ingrese la nueva descripción: ";
+                            cin.ignore();
+                            cin.getline(pokemon.description, sizeof(pokemon.description));
+                            if (strlen(pokemon.description) == 0) {
+                                cout << "La descripción no puede estar vacía. Inténtelo de nuevo." << endl;
+                            }    
+                        } while (strlen(pokemon.description) == 0);
+                        
+                        break;
+                    case 10:
+                        break;
+                    default:
+                        cout << "Opción inválida. Inténtelo de nuevo.\n";
+                }
+
+                if (option != 10) {
+                    // Escribir el registro modificado en el archivo
+                    fseek(archi, pos * sizeof(Pokemon), SEEK_SET);
+                    fwrite(&pokemon, sizeof(Pokemon), 1, archi);
+
+                    cout << "\nPresione Enter para continuar...";
+                    //cin.ignore();
+                    cin.get();
+                }
+            } while (option != 10);
+        } while (!found);
     }
-    
+
+    fclose(archi);
 }
 
 // Funcion para ordenar toda la Pokedex de distintos modos
@@ -794,12 +817,6 @@ void filterPokemon() {
     }        
 }
 
-
-void pokemonCombat(){
-
-}
-
-
 int main() {
     setlocale(LC_ALL, "es_ES.UTF-8");
     playMusic();
@@ -820,8 +837,7 @@ int main() {
             case 5: sortPokemon(); break; //esta en veremos
             case 6: deletePokemon(); break;
             case 7: filterPokemon(); break;
-            case 8: pokemonCombat(); break;
-            case 9: exit = 1; break; 
+            case 8: exit = 1; break; 
         }
     } while (!exit);
     return 0;
