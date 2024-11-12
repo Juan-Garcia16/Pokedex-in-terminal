@@ -1,18 +1,13 @@
-int readInt() {
-    int value;
+--------------\n";
+            }
 
-    while (true) {
-        cin >> value; // Recibe la entrada
+            if (op >= 1 && op <= 8) {
+                // Crear un archivo temporal para almacenar los registros ordenados
+                FILE *tempFile = fopen("temp.bin", "wb");
+                if (tempFile == NULL) {
+                    cout << "Error al crear el archivo temporal";
+                    delete[] currentPokemon;
+                    return;
+                }
 
-        // Verifica si la entrada es válida y si es un número positivo
-        if (cin.fail() || value <= 0) {
-            // Si hay un error, se limpia el estado de error y el buffer
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "Entrada inválida. Por favor, ingrese un número positivo." << endl;
-        } else {
-            // Retorna el número válido
-            return value;
-        }
-    }
-}
+                // Escribir los registros ordenados en el a
