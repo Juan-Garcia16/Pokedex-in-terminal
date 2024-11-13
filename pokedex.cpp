@@ -8,7 +8,7 @@ micro-PROYECTO
 Este proyecto consiste en desarrollar una Pokédex (base de datos Pokémon) interactiva
 que permite a los usuarios gestionar y consultar información principalmente de los 151 Pokémon
 de la primera generación de la franquicia. La aplicación permite realizar operaciones como
-agregar, listar, consultar, modificar, ordenar, filtrar y eliminar registros de Pokémon en la base de datos.
+agregar, listar, consultar, modificar, ordenar, filtrar, combatir y eliminar registros de Pokémon en la base de datos.
 
 La base de datos se almacena en un archivo binario y se maneja mediante estructuras de datos
 definidas en C++. Cada Pokémon incluye atributos como id, nombre, tipo, y estadísticas
@@ -23,13 +23,12 @@ La aplicación cuenta con un menú interactivo para facilitar la navegación y u
 
 
 
-VSC ver 1.93.1 noviembre 8/2024          Juan Pablo García
+VSC ver 1.93.1 noviembre 13/2024          Juan Pablo García
 
 */
 #include <iostream>
-#include <stdio.h>
-#include <cstdlib>  // Para system()
-#include <string>   // Para cin.ignore()
+#include <cstdlib> // Para funciones del sistema
+#include <string> // Para cin.ignore()
 #include <cstring>
 #include <cctype>
 #include <locale>
@@ -347,39 +346,32 @@ void listPokemon() {
 }
 
 // Funcion para buscar un Pokemon por su ID
-void searchPokemon(){
+void searchPokemon() {
     FILE *archi;
     int ID;
     Pokemon pokemon;
     char confirm;
 
-    archi = fopen(archivo, "r+b");
-    if (archi == NULL)
-    {
-        cout << "\n Error en la operacion de archivo";
+    archi = fopen(archivo, "rb");
+    if (archi == NULL) {
+        cout << "\nError en la operacion de archivo";
     } else {
-        do
-        { 
+        do {
             rewind(archi); // Inicio del archivo
             int found = 0;
 
             cout << "Ingrese el ID a consultar: ";
             ID = readInt();
 
-            while (fread(&pokemon, sizeof(pokemon), 1, archi) && !found)
-            {
-                if (ID == pokemon.id) 
-                {
+            while (fread(&pokemon, sizeof(Pokemon), 1, archi) && !found) {
+                if (ID == pokemon.id) {
                     found = 1;
                     break;
                 }
-                
             }
 
-            if (!found)
-            {
-                cout << "\n El Pokemon no esta registrado.";
-                cin.get();
+            if (!found) {
+                cout << "\nEl Pokemon no está registrado.";
             } else {
                 cout << "\n--------------------------------------------------------------------\n";
                 cout << "Nombre: " << pokemon.name << "\n";
@@ -394,11 +386,18 @@ void searchPokemon(){
                 cout << "--------------------------------------------------------------------\n";
             }
 
-            cout << "\n Desea consultar otro Pokemon S/N :";
-            cin >> confirm;
-            cin.ignore();
+            // Validar la entrada del usuario para continuar consultando
+            do {
+                cout << "\nDesea consultar otro Pokemon (S/N): ";
+                cin >> confirm;
+                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Limpiar el buffer de entrada
+                confirm = tolower(confirm);
+                if (confirm != 's' && confirm != 'n') {
+                    cout << "Entrada inválida. Por favor, ingrese 'S' para sí o 'N' para no." << endl;
+                }
+            } while (confirm != 's' && confirm != 'n');
 
-        } while (confirm == 's' || confirm == 'S');   
+        } while (confirm == 's');
         fclose(archi);
     }
 }
@@ -1022,7 +1021,7 @@ int main() {
             case 2: listPokemon(); break;
             case 3: searchPokemon(); break;
             case 4: modifyPokemon(); break;
-            case 5: sortPokemon(); break; //esta en veremos
+            case 5: sortPokemon(); break; 
             case 6: deletePokemon(); break;
             case 7: filterPokemon(); break;
             case 8: combat(); break;
