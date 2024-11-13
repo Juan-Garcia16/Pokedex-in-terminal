@@ -53,13 +53,33 @@ struct Pokemon {
 
 char *archivo = (char *)"pokedex1.bin";
 
-void playMusic(){
+
+
+// Función para reproducir música
+void playMusic(const char* filename) {
     #ifdef _WIN32
     // Reproducir el archivo de música en Windows
-    system("start /min wmplayer Littleroot_Town.mp3");
+    string command = "start /min wmplayer ";
+    command += filename;
+    system(command.c_str());
     #elif defined(__APPLE__)
     // Reproducir el archivo de música en macOS
-    system("afplay Littleroot_Town.mp3 &");
+    string command = "afplay ";
+    command += filename;
+    command += " &";
+    system(command.c_str());
+    #else
+    std::cerr << "Error: sistema operativo no soportado." << std::endl;
+    #endif
+}
+
+void stopMusic() {
+    #ifdef _WIN32
+    // Detener la música en Windows
+    system("taskkill /IM wmplayer.exe /F");
+    #elif defined(__APPLE__)
+    // Detener la música en macOS
+    system("killall afplay");
     #else
     std::cerr << "Error: sistema operativo no soportado." << std::endl;
     #endif
@@ -97,8 +117,8 @@ void menu(){
     cout << " 5. Ordenar los Pokemon       \t\t⠀⠀⠀⠈⢪⠳⠀⠀⠀⠀⢈⠟⠂⣢⣄⡀⠀⠀⠀⠀⠀⠀⣀⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⠛⠛⠁⠀⢣⢠⡴⠋⠀⠀⠀⣠⠔⠋⡄⠐⠀⠀⠀⠀⠀⠀\n";
     cout << " 6. Eliminar Pokemon          \t\t⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⢏⡴⠋⠁⠹⠷⣆⠀⠀⠀⢰⠏⠇⠈⠙⠲⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣿⡏⠀⠀⣠⠖⠋⠀⠀⠀⠁⠀⠀⠀⠀⠀⠀⠀\n";
     cout << " 7. Filtrar por tipos puros   \t\t⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡟⠀⠀⠁⢀⠀⡹⠄⠀⠀⢸⡄⠈⠒⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣿⣿⣿⣀⠀⠈⠷⠦⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n";
-    cout << " 8. Salir                     \t\t⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢷⣀⠀⠀⣨⡷⢻⠀⠀⠀⠀⠹⣆⠀⠀⠀⠀⠀⠀⣀⣴⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⡏⣉⣾⣳⣬⣺⡷⠀⠀⠀⠀⠀⠀⠀⠀⠀\n";
-    cout << "                              \t\t⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢩⠟⣇⠀⠁⠀⠀⠀⠀⠀⠈⠑⠢⠤⠤⠔⢊⠵⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⡿⠟⠋⢁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n";
+    cout << " 8. Combate                   \t\t⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢷⣀⠀⠀⣨⡷⢻⠀⠀⠀⠀⠹⣆⠀⠀⠀⠀⠀⠀⣀⣴⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⡏⣉⣾⣳⣬⣺⡷⠀⠀⠀⠀⠀⠀⠀⠀⠀\n";
+    cout << " 9. Salir                     \t\t⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢩⠟⣇⠀⠁⠀⠀⠀⠀⠀⠈⠑⠢⠤⠤⠔⢊⠵⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⡿⠟⠋⢁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n";
     cout << "                              \t\t⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡟⠀⠸⠆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡼⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣷⡄⠀⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n";
     cout << "                              \t\t⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢷⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡿⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n";
     cout << "                              \t\t⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠳⣄⠀⠀⠈⠳⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠸⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n";
@@ -747,36 +767,34 @@ void sortPokemon() {
 }
 
 // Funcion para eliminar el registro de un Pokemon
-void deletePokemon(){
+void deletePokemon() {
     FILE *archi, *temp;
     int ID;
     Pokemon pokemon;
     int found = 0;
 
     archi = fopen(archivo, "rb");
-    if (archi == NULL)
-    {
-        cout << "\n Error en la operacion de archivo";
+    if (archi == NULL) {
+        cout << "\nError en la operacion de archivo";
         return;
     }
-    
+
     // Crear un archivo temporal en modo escritura
     temp = fopen("temp.bin", "wb");
-    if (temp == NULL)
-    {
-        cout << "\n Error al crear el archivo temporal";
+    if (temp == NULL) {
+        cout << "\nError al crear el archivo temporal";
         fclose(archi);
         return;
     }
 
-    cout << "\n Ingrese el ID del Pokemon a eliminar: ";
-    ID = readInt();
+    cout << "\nIngrese el ID del Pokemon a eliminar: ";
+    ID = readInt(); // Validar que solo se ingresen números
 
     // Leer y copiar solo los registros que no coincidan con el ID a eliminar
     while (fread(&pokemon, sizeof(Pokemon), 1, archi)) {
         if (pokemon.id == ID) {
             found = 1;
-            cout << "\n El Pokemon con ID " << ID << " ha sido eliminado.\n";
+            cout << "\nEl Pokemon con ID " << ID << " ha sido eliminado exitosamente.\n";
         } else {
             fwrite(&pokemon, sizeof(Pokemon), 1, temp);
         }
@@ -784,19 +802,19 @@ void deletePokemon(){
 
     fclose(archi);
     fclose(temp);
-    
-    // Si se encuentra el registro se escribe un nuevo archivo original
+
+    // Si se encontró el registro, reemplazar el archivo original con el temporal
     if (found) {
-        remove(archivo);  // eliminar el archivo original
-        rename("temp.bin", archivo);  // eenombrar el archivo temporal al nombre original
+        remove(archivo);
+        rename("temp.bin", archivo);
     } else {
-        cout << "\n No se encontro un Pokemon con el ID especificado." << endl;
-        remove("temp.bin");  // eliminar el archivo temporal sin uso
+        cout << "\nNo se encontró un Pokemon con el ID especificado.\n";
+        remove("temp.bin");
     }
 
-    cout << "Presione Enter para continuar..." << endl;
-    cin.ignore(); // limpiar el buffer de entrada
-    cin.get();  // Espera una entrada del usuario
+    cout << "\nPresione Enter para continuar...";
+    cin.ignore();
+    cin.get();
 }
 
 // Funcion para filtrar Pokemon segun su tipo
@@ -884,9 +902,112 @@ void filterPokemon() {
     }        
 }
 
+// Función para buscar un Pokémon por ID
+bool findPokemonByID(int ID, Pokemon &pokemon) {
+    FILE *archi = fopen(archivo, "rb");
+    if (archi == NULL) {
+        cout << "Error en la operacion de archivo";
+        return false;
+    }
+
+    while (fread(&pokemon, sizeof(Pokemon), 1, archi)) {
+        if (pokemon.id == ID) {
+            fclose(archi);
+            return true;
+        }
+    }
+
+    fclose(archi);
+    return false;
+}
+
+// Función para realizar un combate entre dos Pokémon
+void combat() {
+    int ID1, ID2;
+    Pokemon pokemon1, pokemon2;
+    int score1 = 0, score2 = 0;
+
+    // Detener la música actual y reproducir la música de combate
+    stopMusic();
+    playMusic("Pokemon_combat.mp3");
+
+    // Validar la entrada del primer Pokémon
+    do {
+        cout << "Ingrese el ID del primer Pokemon: ";
+        ID1 = readInt();
+        if (!findPokemonByID(ID1, pokemon1)) {
+            cout << "El Pokemon con ID " << ID1 << " no está registrado. Inténtelo de nuevo." << endl;
+        }
+    } while (!findPokemonByID(ID1, pokemon1));
+
+    // Validar la entrada del segundo Pokémon
+    do {
+        cout << "Ingrese el ID del segundo Pokemon: ";
+        ID2 = readInt();
+        if (ID1 == ID2) {
+            cout << "No puede seleccionar el mismo Pokemon para el combate. Inténtelo de nuevo." << endl;
+        } else if (!findPokemonByID(ID2, pokemon2)) {
+            cout << "El Pokemon con ID " << ID2 << " no está registrado. Inténtelo de nuevo." << endl;
+        }
+    } while (ID1 == ID2 || !findPokemonByID(ID2, pokemon2));
+
+    // Mostrar estadísticas de los Pokémon
+    cout << "\nEstadísticas del combate:\n\n";
+    cout << "Pokemon 1: " << pokemon1.name << " (ID: " << pokemon1.id << ")\n";
+    cout << "Tipo: " << pokemon1.type << "\n";
+    cout << "Vida: " << pokemon1.hp << "\n";
+    cout << "Ataque: " << pokemon1.attack << "\n";
+    cout << "Defensa: " << pokemon1.defense << "\n";
+    cout << "Ataque Especial: " << pokemon1.specialAttack << "\n";
+    cout << "Defensa Especial: " << pokemon1.specialDefense << "\n";
+    cout << "Velocidad: " << pokemon1.speed << "\n";
+    cout << "Descripción: " << pokemon1.description << "\n";
+    cout << "---------------------------------------------\n";
+    cout << "Pokemon 2: " << pokemon2.name << " (ID: " << pokemon2.id << ")\n";
+    cout << "Tipo: " << pokemon2.type << "\n";
+    cout << "Vida: " << pokemon2.hp << "\n";
+    cout << "Ataque: " << pokemon2.attack << "\n";
+    cout << "Defensa: " << pokemon2.defense << "\n";
+    cout << "Ataque Especial: " << pokemon2.specialAttack << "\n";
+    cout << "Defensa Especial: " << pokemon2.specialDefense << "\n";
+    cout << "Velocidad: " << pokemon2.speed << "\n";
+    cout << "Descripción: " << pokemon2.description << "\n";
+    cout << "---------------------------------------------\n";
+
+    // Comparar estadísticas
+    if (pokemon1.hp > pokemon2.hp) score1++; else if (pokemon1.hp < pokemon2.hp) score2++;
+    if (pokemon1.attack > pokemon2.attack) score1++; else if (pokemon1.attack < pokemon2.attack) score2++;
+    if (pokemon1.defense > pokemon2.defense) score1++; else if (pokemon1.defense < pokemon2.defense) score2++;
+    if (pokemon1.specialAttack > pokemon2.specialAttack) score1++; else if (pokemon1.specialAttack < pokemon2.specialAttack) score2++;
+    if (pokemon1.specialDefense > pokemon2.specialDefense) score1++; else if (pokemon1.specialDefense < pokemon2.specialDefense) score2++;
+    if (pokemon1.speed > pokemon2.speed) score1++; else if (pokemon1.speed < pokemon2.speed) score2++;
+
+    // Determinar el ganador
+    cout << "\nResultado del combate:\n";
+    cout << "Pokemon 1: " << pokemon1.name << " (ID: " << pokemon1.id << ") - Puntuación: " << score1 << endl;
+    cout << "Pokemon 2: " << pokemon2.name << " (ID: " << pokemon2.id << ") - Puntuación: " << score2 << endl;
+
+    if (score1 > score2) {
+        cout << "\nEl ganador es: " << pokemon1.name << "!" << endl;
+    } else if (score2 > score1) {
+        cout << "\nEl ganador es: " << pokemon2.name << "!" << endl;
+    } else {
+        cout << "\nEl combate terminó en empate!" << endl;
+    }
+
+    cout << "\nPresione Enter para continuar...";
+    cin.ignore();
+    cin.get();
+
+    // Detener la música de combate y volver a la música del menú principal
+    stopMusic();
+    playMusic("Pokemon_menu.mp3");
+}
+
+
 int main() {
     setlocale(LC_ALL, "es_ES.UTF-8");
-    playMusic();
+    playMusic("Pokemon_menu.mp3"); // Reproducir música de fondo
     int op;
     char exit = 0;
     do {
@@ -904,9 +1025,12 @@ int main() {
             case 5: sortPokemon(); break; //esta en veremos
             case 6: deletePokemon(); break;
             case 7: filterPokemon(); break;
-            case 8: exit = 1; break; 
+            case 8: combat(); break;
+            case 9: exit = 1; break; 
         }
     } while (!exit);
+
+    stopMusic(); // Detener la música antes de salir
     return 0;
 }
 
