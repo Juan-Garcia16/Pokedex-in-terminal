@@ -928,7 +928,7 @@ void combat() {
 
     // Detener la música actual y reproducir la música de combate
     stopMusic();
-    playMusic("Pokemon_combat.mp3");
+    playMusic("assets/audio/Pokemon_combat.mp3");
 
     // Validar la entrada del primer Pokémon
     do {
@@ -1000,13 +1000,13 @@ void combat() {
 
     // Detener la música de combate y volver a la música del menú principal
     stopMusic();
-    playMusic("Pokemon_menu.mp3");
+    playMusic("assets/audio/Pokemon_menu.mp3");
 }
 
 
 int main() {
     setlocale(LC_ALL, "es_ES.UTF-8");
-    playMusic("Pokemon_menu.mp3"); // Reproducir música de fondo
+    playMusic("assets/audio/Pokemon_menu.mp3"); // Reproducir música de fondo
     int op;
     char exit = 0;
     do {

@@ -13,4 +13,4 @@ The application has an interactive menu to facilitate navigation and use of its 
 
 VSC version 1.93.1 November 13, 2024 Juan Pablo García
 
-![Terminal View](images/View.png)
+![Terminal View](assets/images/View.png)
