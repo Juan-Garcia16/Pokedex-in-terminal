@@ -1,0 +1,47 @@
+Proyecto: Pokédex Interactiva
+https://github.com/Juan-Garcia16/Pokedex-in-terminal.git
+
+Descripción General
+Este proyecto consiste en desarrollar una Pokédex interactiva utilizando C++ y manejo de archivos binarios. La Pokédex permite a los usuarios gestionar y consultar información sobre los Pokémon de la primera generación de la franquicia, por lo cual se hizo uso de una api para obtener la información oficial de cada Pokemon, toda esta informacion fue pasada de un archivo de texto a binario para facilitar y optimizar el desarrolo del proyecto. La aplicación incluye funcionalidades para agregar, listar, consultar, modificar, ordenar, filtrar, combatir y eliminar registros de Pokémon.
+
+Funcionalidades Principales
+
+1. Agregar Pokémon: Permite al usuario ingresar los datos de un nuevo Pokémon y guardarlos en el archivo binario.
+2. Listar Pokémon: Muestra una lista de todos los Pokémon registrados en la Pokédex.
+3. Consultar Pokémon: Permite al usuario buscar un Pokémon por su ID y ver sus detalles.
+4. Modificar Pokémon: Permite al usuario modificar los datos de un Pokémon existente.
+5. Ordenar Pokémon: Permite al usuario ordenar la lista de Pokémon por diferentes criterios (ID, nombre, vida, ataque, defensa, etc.).
+6. Eliminar Pokémon: Permite al usuario eliminar un Pokémon de la Pokédex.
+7. Filtrar Pokémon: Permite al usuario filtrar la lista de Pokémon por diferentes criterios.
+8. Combate Pokémon: Permite al usuario seleccionar dos Pokémon para un combate y determina el ganador comparando sus estadísticas.
+
+Manejo del Proyecto
+
+Estructura de Datos
+La información de cada Pokémon se almacena en una estructura llamada Pokemon, que incluye los siguientes campos:
+
+id: Identificador único del Pokémon.
+name: Nombre del Pokémon.
+type: Tipo del Pokémon.
+hp: Puntos de vida del Pokémon.
+attack: Puntos de ataque del Pokémon.
+defense: Puntos de defensa del Pokémon.
+specialAttack: Puntos de ataque especial del Pokémon.
+specialDefense: Puntos de defensa especial del Pokémon.
+speed: Velocidad del Pokémon.
+description: Descripción del Pokémon.
+Manejo de Archivos
+
+Manejo de Archivos
+Los datos de los Pokémon se almacenan en un archivo binario llamado pokedex1.bin. Las operaciones de lectura y escritura en el archivo se realizan utilizando las funciones estándar de C++ para manejo de archivos (fopen, fread, fwrite, fclose, etc.).
+
+Validación de Entradas
+El programa incluye funciones para validar las entradas del usuario, asegurándose de que solo se ingresen datos válidos. Por ejemplo, la función readInt valida que se ingrese un número positivo, ademas de otras validaciones especificas como la seleccion de tipos.
+
+Reproducción de Música
+El programa incluye funciones para reproducir y detener música de fondo y de combate utilizando comandos del sistema (system). La música se organiza en carpetas para una mejor gestión.
+
+Tema Desarrollado
+El tema desarrollado en este proyecto es la creación de una Pokédex interactiva que permite a los usuarios gestionar y consultar información sobre los Pokémon de la primera generación. La Pokédex es una herramienta esencial en el universo Pokémon, y este proyecto busca replicar esa funcionalidad de manera interactiva y amigable para el usuario.
+
+Este proyecto está diseñado para ser mejorado y extendido por otros desarrolladores que se animen a replicar en gran escala una Pokedex
