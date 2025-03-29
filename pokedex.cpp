@@ -1,4 +1,4 @@
-/*
+8/*
 Realizar con manejo de archivos un micro proyecto que contenga  definición de estructuras de registro, el cual debe ser usado para Crear, guardar, borrar, actualizar, consultar y Ordenar,  a través de manejo de menús  y las funciones asociadas, como se han visto a lo largo de los diferentes ejemplos presentados,  los archivos pueden ser de texto o binarios; y con cualquier librería para este tipo de programas. 
 
 Adicionar en un archivo de texto: explicación del manejo y el tema desarrollado, además de permitir o NO, que otros vean su código y lo mejoren. 
